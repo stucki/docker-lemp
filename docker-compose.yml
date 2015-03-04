@@ -1,12 +1,12 @@
 nginx:
   build: nginx-fpm
   links:
-    - fpm
+    - phpfpm
   ports:
     - "8080:80"
   volumes_from:
     - htdocs
-fpm:
+phpfpm:
   build: php-5.6-fpm-custom
   volumes_from:
     - htdocs
