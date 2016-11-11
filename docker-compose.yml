@@ -9,7 +9,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     volumes_from:
-      - htdocs
+      - php
   php:
     build: php-7.0-fpm-custom
     environment:
@@ -17,8 +17,8 @@ services:
     links:
       - db
       - redis
-    volumes_from:
-      - htdocs
+    volumes:
+      - ./htdocs:/var/www/html
   db:
     image: mariadb:10.1
     environment:
@@ -27,8 +27,3 @@ services:
       - ./mysql:/var/lib/mysql
   redis:
     image: redis:3.2
-  htdocs:
-    image: busybox
-    stdin_open: true
-    volumes:
-      - ./htdocs:/var/www/html
