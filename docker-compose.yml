@@ -10,13 +10,12 @@ web:
     - htdocs
 php:
   build: php-7.0-fpm-custom
+  links:
+    - db
   volumes_from:
     - htdocs
-    - db
 db:
-  image: mariadb
-  volumes:
-    - /var/run/mysqld
+  image: mariadb:10.1
   environment:
     MYSQL_ROOT_PASSWORD: change_this
 htdocs:
