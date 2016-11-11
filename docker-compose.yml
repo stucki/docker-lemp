@@ -27,4 +27,4 @@ htdocs:
   image: busybox
   stdin_open: true
   volumes:
-    - htdocs:/var/www/html
+    - ./htdocs:/var/www/html
