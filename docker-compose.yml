@@ -12,6 +12,7 @@ php:
   build: php-7.0-fpm-custom
   links:
     - db
+    - redis
   volumes_from:
     - htdocs
 db:

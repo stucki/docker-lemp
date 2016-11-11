@@ -14,4 +14,8 @@ RUN docker-php-ext-install mcrypt
 
 RUN docker-php-ext-install mysqli
 
+RUN pecl install --onlyreqdeps --force redis \
+	&& rm -rf /tmp/pear \
+	&& docker-php-ext-enable redis
+
 CMD ["php-fpm"]
