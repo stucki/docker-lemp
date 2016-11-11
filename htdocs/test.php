@@ -1,6 +1,6 @@
 <?php
 
-$db = mysqli_connect('localhost', 'root', 'change_this', 'mysql')
+$db = mysqli_connect('db', 'root', 'secret', 'mysql')
 	or die('Error: ' . mysqli_error());
 
 $query = 'SHOW DATABASES;';
