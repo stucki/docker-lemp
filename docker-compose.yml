@@ -20,7 +20,7 @@ services:
     volumes:
       - ./htdocs:/var/www/html
   db:
-    image: mariadb:10.1
+    build: mysql-uid-1000
     environment:
       - MYSQL_ROOT_PASSWORD=secret
     volumes:
