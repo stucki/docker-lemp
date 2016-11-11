@@ -10,6 +10,8 @@ web:
     - htdocs
 php:
   build: php-7.0-fpm-custom
+  environment:
+    - TYPO3_CONTEXT=Development/Docker
   links:
     - db
     - redis
