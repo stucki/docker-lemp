@@ -130,7 +130,7 @@ Use an extra Docker container to run `phpMyAdmin`:
 
       DBSERVER=dockerlemp_db_1
       DBNETWORK=dockerlemp_default
-      docker run --name phpadmin_ter -d --rm  \
+      docker run --name phpadmin_dockerlemp -d --rm  \
          --link=${DBSERVER}:db --network=${DBNETWORK} \
          -p 8181:80  phpmyadmin/phpmyadmin
 
