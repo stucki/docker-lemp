@@ -10,9 +10,8 @@ Additional Notes
 Expose MySQL-like Database Server to the Host System
 ====================================================
 
-Better use a non-default port to avoid conflicts with the host system.
-We choose to use `4306` as port. Here is an example from
-:file:`docker-compose.yml`::
+You may want to use a non-default port like `4306` to avoid conflicts with the host system.
+Here is an example snippet from :file:`docker-compose.yml`::
 
   db:
     image: mariadb:10.1
@@ -24,7 +23,7 @@ We choose to use `4306` as port. Here is an example from
       - "4306:3306"
 
 
-Start daemonized::
+Start daemonized and list containers::
 
     cd docker-lemp
     docker-compose up -d
@@ -51,14 +50,14 @@ Test the connection to the database server::
 
 Success!
 
-You can now use database connections like::
+You can now use database connections. An example of Python-Flask notation is::
 
     mysql+mysqldb://root:secret@127.0.0.1:4306/my_database_001
 
 
 .. attention::
 
-   Pitfall! Do write `127.0.0.1`. Do not write `localhost`!
+   Pitfall! **Do write `127.0.0.1`.** Do not write `localhost`!
 
 
 With `localhost` you'll get an ERROR similar to::
@@ -75,7 +74,7 @@ Log all Database Queries
 
 While developing and debugging there may be times when you want to log all database queries.
 
-Make sure you can edit the configuration file :file:`/etc/mysql/my.cnf`:::
+Make sure you can edit the configuration file :file:`/etc/mysql/my.cnf`::
 
     # go to the shell of the db container
     docker exec -it dockerlemp_db_1 bash
@@ -106,5 +105,41 @@ Restart the database container. Afterwards watch out for :file:`docker-lemp/mysq
 phpMyAdmin
 ==========
 
-Go to http://localhost:8181 on the host system. Use `root` and `secret` to login as database root user.
+Use an extra Docker container to run `phpMyAdmin`:
 
+#. Bring up the `docker-lemp` stack::
+
+      cd docker-lemp
+      docker-compose up -d
+
+#. List the docker containers and verify that the container `dockerlemp_db_1` is there.
+   Remember that name::
+
+      docker ps
+
+#. List the networks and verify that the container `dockerlemp_default` is there.
+   Remember that name::
+
+      docker network ls
+
+
+#. Run phpMyAdmin in a Docker container with the name `phpadmin_dockerlemp`. Run as a daemon,
+   remove the container after stopping, link to the container with the DB server
+   in the appropriate network and show up as `http://localhost:8181
+   <http://localhost:8181>`__::
+
+      DBSERVER=dockerlemp_db_1
+      DBNETWORK=dockerlemp_default
+      docker run --name phpadmin_ter -d --rm  \
+         --link=${DBSERVER}:db --network=${DBNETWORK} \
+         -p 8181:80  phpmyadmin/phpmyadmin
+
+
+#. Go to http://localhost:8181 on the host system. Use `root` and `secret` to login into
+   phpMyAdmin as database root user.
+
+#. Stop the container when done, thereby removing it::
+
+      ➜ docker stop phpadmin_dockerlemp
+
+Have fun!
