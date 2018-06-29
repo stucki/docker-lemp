@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: nginx:1.11-alpine
+    image: nginx:latest
     links:
       - php
     ports:
@@ -26,4 +26,4 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
   redis:
-    image: redis:3.2
+    image: redis:latest
